@@ -1,0 +1,43 @@
+<!-- <html>
+    <style>
+        .container {
+            background-color: red;
+            font-size: 100;
+            padding: 20;
+            margin: 100;
+            color: green;
+        }
+    </style>
+    <body>
+        <div class="container">hi there</div> <br></br>
+        <div class="container">hi there 2</div> <br></br>
+    </body>
+</html> -->
+
+<html>
+    <script>
+        async function populateDiv() {
+            const a = document.getElementById("principal amount").value;
+            const b = document.getElementById("Rate").value;
+            const c = document.getElementById("Time").value;
+            const element = document.getElementById("finalSum");
+
+            const response = await fetch("http://localhost:8080/intrest?a=principal=" + a + "&rate=" + b + "&time=" + c);
+            const ans = await response.text();
+            document.getElementById("finalSum").innerHTML = ans;
+        }
+    </script>
+    <body>
+        <input id="principal amount" type="text" placeholder="First number"></input>
+        <br></br>
+        <input id="Rate" type="text" placeholder="Second number"></input>
+        <br></br>
+        <input id="Time" type="text" placeholder="Second number"></input>
+        <br></br>
+        <button onclick="populateDiv()">Calculate Sum</button>
+        <br></br>
+        <div id="total"></div>
+        <br></br>
+        <div id="intrest"></div>
+    </body>
+</html>
