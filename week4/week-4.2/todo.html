@@ -1,0 +1,60 @@
+<html>
+    
+    <body>
+        <div>
+            <input id="title" type="text" placeholder="title"></input>
+            <br></br>
+            <input id="description" type="text" placeholder="description"></input>
+            <br></br>
+            <div id="container"></div>
+        </div>
+    </body>
+    <script>
+        function createChild(title, description, id) {
+            const child = document.createElement("div");
+            const firstGrandChild = document.createElement("div");
+            firstGrandChild.innerHTML = title;
+            
+            const secondGrandChild = document.createElement("div");
+            secondGrandChild.innerHTML = description;
+
+            const thirdGrandChild = document.createElement("button");
+            thirdGrandChild.innerHTML = "Mark as Done";
+            thirdGrandChild.setAttribute("onclick", `markAsDone(${id})`);
+
+            child.appendChild(firstGrandChild);
+            child.appendChild(secondGrandChild);
+            child.appendChild(thirdGrandChild);
+            child.setAttribute("id", id);
+
+            return child;
+
+        }
+        function addTodo() {
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+
+            const parent = document.getElementById("container");
+            parent.appendChild(createChild(title, description, globalId++));
+        }
+
+        // State will always be an arr
+        // Every element of state would have a title, description and id
+        //
+        //
+        function updateDomAccToState(state) {
+            const parent = document.getElementById("container");
+            parent.innerHTML = "";
+            for(let i = 0; i < state.length; i++) {
+                const child = createChild(state[i].title, state[i].description, state[i].id);
+                parent.appendChild(child);
+            }
+        }
+        window.setInterval(async function() {
+            const res = await fetch("http://localhost:8080/todos");
+            const json = await res.json();
+            updateDomAccToState(json.todos);
+        }, 5000);
+        
+    </script>
+</html>
