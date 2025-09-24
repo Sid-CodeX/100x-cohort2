@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const { fa } = require('zod/locales');
 //const { use } = require('react');
 const jwtPassword = "123456";
 
@@ -60,7 +61,14 @@ app.get('/users', function(req, res) {
         const username = decoded.username;
         // return a list of users other than this username
         return res.json({
-            users: ALL_USERS
+            users: ALL_USERS.filter(function(value) {
+                if(value.username == username) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            })
         })
     }
     catch{
