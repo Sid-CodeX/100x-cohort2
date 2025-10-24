@@ -1,15 +1,17 @@
 
 // Write basic express boilerplate code,
 // with express.json() middleware,
-
 const express = require('express');
+const cors = require('cors');
 const { createTodo, updateTodo } = require('./type'); 
 const { todo } = require('./db');  
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors());
 
+// Write a POST /todos endpoint to create a todo
 app.post('/todos', async function(req, res) {
     const createPayLoad = req.body;
     const parsedPayLoad = createTodo.safeParse(createPayLoad);
@@ -32,6 +34,7 @@ app.post('/todos', async function(req, res) {
     })
 }); 
 
+// Write a GET /todos endpoint to get all todos
 app.get('/todos', async function(req, res) {
     const todos = await todo.find({});
     
@@ -40,6 +43,7 @@ app.get('/todos', async function(req, res) {
     });
 });
 
+// Write a PUT /completed endpoint to mark a todo as completed
 app.put('/completed', async function(req, res) {
     const updatePayLoad = req.body;
     const parsedPayLoad =updateTodo.safeParse(updatePayLoad);
